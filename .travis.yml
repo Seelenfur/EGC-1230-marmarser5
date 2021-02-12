@@ -10,9 +10,15 @@ before_script:
   - psql -U postgres -c "ALTER USER decide CREATEDB"
 language: python
 python:
-  - "3.7"
+  - "3.8"
+  - "3.6"
 install:
   - pip install -r requirements.txt
-script:
-  - cd decide
-  - ./manage.py test --keepdb
+jobs:
+  include:
+    - script:
+      - cd decide
+      - ./manage.py test authentication/ --keepdb
+    - script:
+      - cd decide
+      - ./manage.py test census/ --keepdb
